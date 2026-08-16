@@ -2,7 +2,7 @@
 
 Deploy the React frontend and Spring Boot backend as one container with Amazon RDS, ECR, and ECS Express Mode.
 
-![AWS deployment architecture](docs/aws-deployment/image5.png)
+<img src="docs/aws-deployment/image5.png" alt="AWS deployment architecture" width="900">
 
 ## 1. Prerequisites
 
@@ -46,7 +46,7 @@ twitch-backend/src/main/resources/public
 
 Copy everything inside `twitch-frontend/build` into that `public` folder. The frontend project is no longer needed for the remaining steps; perform all subsequent operations from the backend root folder.
 
-![Frontend build files inside Spring Boot resources](docs/aws-deployment/image11.png)
+<img src="docs/aws-deployment/image11.png" alt="Frontend build files inside Spring Boot resources" width="340">
 
 ## 3. Select the AWS region
 
@@ -56,7 +56,7 @@ Select one region in the AWS Console and use it for RDS, ECR, and ECS. This guid
 us-east-2
 ```
 
-![AWS region selector](docs/aws-deployment/image3.png)
+<img src="docs/aws-deployment/image3.png" alt="AWS region selector" width="1000">
 
 Configure the same region in AWS CLI:
 
@@ -78,7 +78,7 @@ Open **EC2 → Security Groups → Create security group** and enter:
 | Description | `MySQL security group with default port open` |
 | VPC | Default VPC |
 
-![MySQL security group settings](docs/aws-deployment/image1.png)
+<img src="docs/aws-deployment/image1.png" alt="MySQL security group settings" width="450">
 
 Under **Inbound rules**, add:
 
@@ -86,7 +86,7 @@ Under **Inbound rules**, add:
 |---|---:|---|
 | MySQL/Aurora | `3306` | Anywhere-IPv4 |
 
-![MySQL inbound rule](docs/aws-deployment/image4.png)
+<img src="docs/aws-deployment/image4.png" alt="MySQL inbound rule" width="1000">
 
 Keep the default outbound rule, then choose **Create security group**.
 
@@ -106,7 +106,7 @@ Open **RDS → Databases → Create database** and choose **Full configuration**
 | Credentials management | Self managed |
 | Password | Create and record a password |
 
-![RDS database settings](docs/aws-deployment/image27.png)
+<img src="docs/aws-deployment/image27.png" alt="RDS database settings" width="1000">
 
 ### Instance and storage
 
@@ -115,7 +115,7 @@ Open **RDS → Databases → Create database** and choose **Full configuration**
 | DB instance class | `db.t4g.micro` |
 | Allocated storage | `20 GB` |
 
-![RDS storage settings](docs/aws-deployment/image17.png)
+<img src="docs/aws-deployment/image17.png" alt="RDS storage settings" width="1000">
 
 ### Connectivity
 
@@ -125,7 +125,7 @@ Open **RDS → Databases → Create database** and choose **Full configuration**
 | Public access | Yes |
 | VPC security group | `PublicMySqlSecurityGroup` |
 
-![RDS connectivity settings](docs/aws-deployment/image12.png)
+<img src="docs/aws-deployment/image12.png" alt="RDS connectivity settings" width="1000">
 
 Under **Additional configuration**, set the initial database name to:
 
@@ -133,13 +133,13 @@ Under **Additional configuration**, set the initial database name to:
 twitch
 ```
 
-![RDS initial database name](docs/aws-deployment/image8.png)
+<img src="docs/aws-deployment/image8.png" alt="RDS initial database name" width="750">
 
 Choose **Create database** and wait until its status becomes **Available**.
 
 Open **Connectivity & security** and record the endpoint. Save only the hostname; do not include `jdbc:mysql://`, `:3306`, or `/twitch`.
 
-![RDS endpoint](docs/aws-deployment/image9.png)
+<img src="docs/aws-deployment/image9.png" alt="RDS endpoint" width="1000">
 
 ## 6. Initialize the database
 
@@ -156,7 +156,7 @@ In IntelliJ IDEA, open **View → Tool Windows → Database**, then choose **New
 
 Test and save the connection.
 
-![IntelliJ RDS connection](docs/aws-deployment/image15.png)
+<img src="docs/aws-deployment/image15.png" alt="IntelliJ RDS connection" width="800">
 
 Run `src/main/resources/database-init.sql` once against the new RDS database. The script drops existing tables, so do not run it again after the database contains data.
 
@@ -170,7 +170,7 @@ Set the repository name to:
 twitch
 ```
 
-![Create the Twitch ECR repository](docs/aws-deployment/image20.png)
+<img src="docs/aws-deployment/image20.png" alt="Create the Twitch ECR repository" width="1000">
 
 Choose **Create repository** and record its base URI without `/twitch`:
 
@@ -188,7 +188,7 @@ Start Docker Desktop.
 2. Open **twitch → Tasks → build**.
 3. Right-click **bootBuildImage** and select **Modify Run Configuration**.
 
-![Open the bootBuildImage run configuration](docs/aws-deployment/image16.png)
+<img src="docs/aws-deployment/image16.png" alt="Open the bootBuildImage run configuration" width="560">
 
 Append these arguments after `bootBuildImage` with a space:
 
@@ -198,7 +198,7 @@ Append these arguments after `bootBuildImage` with a space:
 
 Replace `{repository_base_uri}` with the ECR base URI recorded in the previous step, then choose **OK**.
 
-![Configure the bootBuildImage arguments](docs/aws-deployment/image30.png)
+<img src="docs/aws-deployment/image30.png" alt="Configure the bootBuildImage arguments" width="1000">
 
 Select the `twitch [bootBuildImage]` run configuration and click the green **Run** button. Wait for `BUILD SUCCESSFUL`.
 
@@ -268,7 +268,7 @@ Open **ECS → Express mode**.
 2. Select the private repository `twitch`.
 3. Select the image tagged `latest`.
 
-![Select the latest ECR image](docs/aws-deployment/image28.png)
+<img src="docs/aws-deployment/image28.png" alt="Select the latest ECR image" width="1000">
 
 ### Configure IAM roles
 
@@ -282,7 +282,7 @@ If the roles already exist, select:
 - `ecsTaskExecutionRole`
 - `ecsInfrastructureRoleForExpressServices`
 
-![Configure ECS roles](docs/aws-deployment/image23.png)
+<img src="docs/aws-deployment/image23.png" alt="Configure ECS roles" width="1000">
 
 ### Configure the service
 
